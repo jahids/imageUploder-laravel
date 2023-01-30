@@ -13,19 +13,19 @@
    <div class="container">
     <a href="{{url("/")}}" class=" mt-5 mb-5 btn btn-primary" >show data</a>
   
-    <form method="POST" action="{{url("/store-data")}}" >
+    <form method="POST" action="{{url('/update/'.$editData->id)}}">
         @csrf
       
         <div class="form-group">
             <label for="exampleFormControlInput1" class="form-label">Name</label>
-            <input name="name" type="name" class="form-control" id="exampleFormControlInput1" placeholder="name">
+            <input name="name" type="name" value="{{$editData->name}}" class="form-control" id="exampleFormControlInput1" placeholder="name">
             @error('name')
                 <span class="text-danger">{{$message}}<span>
             @enderror
         </div>
             <div class="form-group">
             <label for="exampleFormControlInput1" class="form-label">Email address</label>
-            <input type="email" name="email"  class="form-control" 
+            <input type="email" name="email" value="{{$editData->email}}"  class="form-control" 
             id="exampleFormControlInput1" placeholder="name@example.com">
             @error('email')
             <span class="text-danger">{{$message}}<span>
