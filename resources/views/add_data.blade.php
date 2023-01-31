@@ -18,7 +18,7 @@
       
         <div class="form-group">
             <label for="exampleFormControlInput1" class="form-label">Name</label>
-            <input name="name" type="name" class="form-control" id="exampleFormControlInput1" placeholder="name">
+            <input name="name" type="text" class="form-control" id="exampleFormControlInput1" placeholder="name">
             @error('name')
                 <span class="text-danger">{{$message}}<span>
             @enderror

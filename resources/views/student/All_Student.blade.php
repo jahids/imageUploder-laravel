@@ -13,30 +13,34 @@
   <body>
 
     <div class="container">
-        <a href="{{url('/add-data')}}" class=" mt-5 mb-5 btn btn-primary" >Add data</a>
+        <a href="{{url('/add/student')}}" class=" mt-5 mb-5 btn btn-primary" >student Add</a>
 
-        <a href="{{url('/student')}}" class=" mt-5 mb-5 btn btn-primary" >All student</a>
+        <a href="{{url('/')}}" class=" mt-5 mb-5 btn btn-primary" >Teacher</a>
 
 
-        @if(Session :: has('msg'))
+        {{-- @if(Session :: has('msg'))
         <p class="alert alert-success">{{ Session::get('msg')}}<p>
-            @endif
+            @endif --}}
         <table class="table">
             <thead>
               <tr>
                 <th scope="col">#</th> 
                 <th scope="col">Name</th>
-                <th scope="col">Email</th>
+                <th scope="col">Roll</th>
+                <th scope="col">Class</th>
+                <th scope="col">Teacher</th>
                 <th scope="col">Action</th>
                 
               </tr>
             </thead>
             <tbody>
-                @foreach ($showData as $key=>$data) 
+                @foreach ($alldata as $key=>$data) 
               <tr>
                 <td>{{$key+1}}</td>
                 <td>{{$data->name}}</td>
-                <td>{{$data->email}}</td>
+                <td>{{$data->roll}}</td>
+                <td>{{$data->class}}</td>
+                <td>{{$data->Teacher->name}}</td>
                 <td>
                     <a href="{{url('edit-data/'.$data->id)}}" class="btn btn-success">edit</a>
                     <a href="{{url('delete/'.$data->id)}}" class="btn btn-danger">Delete</a>
@@ -45,7 +49,7 @@
               @endforeach
             </tbody>
           </table>
-          {{$showData -> links()}}
+          {{-- {{$showData -> links()}} --}}
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>

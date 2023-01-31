@@ -1,39 +1,40 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Controller;
 use App\Models\Crud;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
 
-class CrudController extends Controller
+class Crud_Controller extends Controller
 {
-    //show data all
+    //rest api
+
     public function showData()
     {
         // all data show
         // $showData = Crud::all();
 
         // paginate data
-        $showData = Crud::paginate(10);
+
         // print_r($showData);
-        return view('show_data', compact('showData'));
+        // return view('show_data', compact('showData'));
         // return $showData;
-        // return response()->json([
-        //     'message' => $showData
-        // ], 401);
+        $showData = Crud::paginate(3);
+        return response()->json([
+            'message' => "successs",
+            "data" => $showData
+        ], 401);
     }
-    //add data view page
-    public function addData()
-    {
-        return view('add_data');
-    }
+
 
     public function storeData(Request $req)
     {
+        // print_r('jo');
+        // die();
         $rules = [
             'name' => 'required| max:10',
-            'email' => 'unique:cruds|required|email',
+            'email' => 'required|email',
         ];
 
         $cm = [
@@ -42,19 +43,21 @@ class CrudController extends Controller
             'name.max' => 'you name can not contain more than 10 ch',
             'email.max' => 'you name can not contain more than 10 ch',
         ];
+
         $this->validate($req, $rules, $cm);
         $crud =  new Crud();
         $crud->name = $req->name;
         $crud->email = $req->email;
         $crud->save();
-        Session::flash('msg', 'data successfully Added');
-
-        return redirect('/');
+        return response()->json([
+            'message' => "successs",
+            "data" => $crud
+        ], 401);
     }
 
 
 
-    public function Update(Request $req, $id)
+    public function Update(Request $req)
     {
         $rules = [
             'name' => 'required| max:10',
@@ -68,33 +71,33 @@ class CrudController extends Controller
             'email.max' => 'you name can not contain more than 10 ch',
         ];
         $this->validate($req, $rules, $cm);
-        $crud =  Crud::find($id);
+        $crud =  Crud::find($req->id);
         $crud->name = $req->name;
         $crud->email = $req->email;
         $crud->save();
-        Session::flash('msg', 'data successfully Added');
 
-        return redirect('/');
+        return response()->json([
+            'message' => "successs",
+            "data" => $crud
+        ], 401);
     }
 
     function delete($id)
     {
+
+
         $del = Crud::find($id);
-        $del->delete();
-        Session::flash('msg', 'data successfully Added');
-        return redirect('/');
-    }
+        if ($del) {
+            $del->delete();
+        } else {
+            return response()->json([
+                'message' => "data not found",
+            ], 400);
+        }
 
-
-    function editData($id = null)
-    {
-        // return $id;
-        $editData = Crud::find($id);
-        return view('edit_data', compact('editData'));
-        // return response()->json([
-        //     'message' => $editData
-        // ], 401);
-
-
+        return response()->json([
+            'message' => "successs",
+            "data" => $del
+        ], 401);
     }
 }
